@@ -10,13 +10,14 @@ namespace B17_Ex01_5
             short minDigitInNumber = 0, maxDigitInNumber = 0;
             short io_greaterThanFirstDigitCounter = 0, io_smallerThanFirstDigitCounter = 0;
 
+
             findMinAndMaxDigit(12345678, ref minDigitInNumber, ref maxDigitInNumber);
             Console.WriteLine("The maximum digit in the given number is " + maxDigitInNumber);
             Console.WriteLine("The minimum digit in the given number is " + minDigitInNumber);
 
             findNumberOfDigitsGreaterAndSmallerThenFirstDigit(12345678, ref io_greaterThanFirstDigitCounter, ref io_smallerThanFirstDigitCounter);
-            Console.WriteLine("The number of digits greater then the given number is " + io_greaterThanFirstDigitCounter);
-            Console.WriteLine("The number of digits smaller then the given number is " + io_smallerThanFirstDigitCounter);
+            Console.WriteLine("The number of digits greater then the first digit is " + io_greaterThanFirstDigitCounter);
+            Console.WriteLine("The number of digits smaller then the first digit is " + io_smallerThanFirstDigitCounter);
 
         }
 
