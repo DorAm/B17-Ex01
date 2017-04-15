@@ -1,22 +1,93 @@
-﻿using System;
+﻿
+// TODO: input validation, tests for average and uppercase
+
+using System;
 
 namespace B17_Ex01_4
 {
     class Program
     {
+            
         public static void Main(string[] args)
         {
-            string[] palindromeStrings = { "abgdseesdgba", "racecar", "racccar", "aba", "אבא", "פרשנו רעבתנ שבדבש נתבער ונשרפ", "ag1234554321ga", "a", "" };
-            string[] nonPalindromeStrings = { "abgds3esdgba", "3859jsarlk48ila", "adffde", "adfgda", "rascar", "LoremIpsum" };
+            //string[] palindromeStrings = { "abgdseesdgba", "racecar", "racccar", "aba", "ag1234554321ga", "a", "" };
+            //string[] nonPalindromeStrings = { "abgds3esdgba", "3859jsarlk48ila", "adffde", "adfgda", "rascar", "LoremIpsum" };
 
-            testFunction(isPalindrome, palindromeStrings, nonPalindromeStrings);
+            //testFunction(isPalindrome, palindromeStrings, nonPalindromeStrings);
 
-            string[] numberStrings = { "891204", "124", "5981205", "0", "", "909090", "767767" };
-            string[] nonNumberStrings = { "racecar", "Hello! 5125", "521990H", "8989a5215", "890$89", "@!%^!@", "0x89" };
+            //string[] numberStrings = { "891204", "124", "5981205", "0", "", "909090", "767767" };
+            //string[] nonNumberStrings = { "racecar", "Hello! 5125", "521990H", "8989a5215", "890$89", "@!%^!@", "0x89" };
 
-            testFunction(isNumber, numberStrings, nonNumberStrings);
+            //testFunction(isNumber, numberStrings, nonNumberStrings);
+
+            //Console.WriteLine("The average of 521621 is " + calcAverageOfDigits("521621"));
+            Console.WriteLine("getNumberOfUpperCaseChars = " + getNumberOfUpperCaseChars("AGsySFGsafjlk"));
+
             //isPalindromeTests();
             //isNumber("abc");
+        }
+
+
+        //public static short isInputValid(string i_String)
+        //{
+
+        //    bool numberExistInString = false, letterExistInString = false;
+
+        //    while ()
+        //    {
+        //        if 
+        //    }
+        //    foreach (char character in i_String)
+        //    {
+
+        //        if ('A' <= character && character <= 'Z') || ('A' <= character && character <= 'Z')
+        //        {
+        //            numberExistInString++;
+        //        }
+        //    }
+        //}
+
+        public static short getNumberOfUpperCaseChars(string i_String)
+        {
+            short numberOfUppercaseChars = 0;
+
+            foreach (char character in i_String)
+            {
+                if ('A' <= character && character <= 'Z')
+                {
+                    numberOfUppercaseChars++;
+                }
+            }
+
+            return numberOfUppercaseChars;
+        }
+
+        public static float calcAverageOfDigits(string i_String)
+        {
+            float averageOfDigits = 0;
+            float sumOfDigits = 0;
+            short numberOfDigits = 0;
+
+            if (isNumber(i_String))
+            {
+                int numberAsInt = int.Parse(i_String);
+                while (numberAsInt > 0)
+                {
+                    short currentDigit = (short)(numberAsInt % 10);
+                    numberOfDigits++;
+                    sumOfDigits += currentDigit;
+                    numberAsInt /= 10;
+                }
+            }
+
+            else
+            {
+                Console.WriteLine("Error, invalid number entered");
+                averageOfDigits = - 1;
+            }
+
+            averageOfDigits = sumOfDigits / numberOfDigits;
+            return averageOfDigits;
         }
 
         public static bool isNumber(string i_String)
@@ -49,33 +120,6 @@ namespace B17_Ex01_4
 
             return result;
         }
-
-        //public static bool isPalindromeTests()
-        //{
-        //    bool allTestsPassed = true;
-        //    string messageToUser = "";
-        //    string[] palindromeStrings = { "abgdseesdgba", "racecar", "racccar", "aba", "אבא", "פרשנו רעבתנ שבדבש נתבער ונשרפ", "ag1234554321ga", "a", "" };
-        //    string[] nonPalindromeStrings = { "abgds3esdgba", "3859jsarlk48ila", "adffde", "adfgda", "rascar", "LoremIpsum" };
-
-        //    foreach (string str in palindromeStrings)
-        //    {
-        //        bool isCurrStrAPalindrome = isPalindrome(str);
-        //        Console.WriteLine("Expected True. Got: " + isCurrStrAPalindrome);
-        //        allTestsPassed &= isCurrStrAPalindrome;
-        //    }
-
-        //    foreach (string str in nonPalindromeStrings)
-        //    {
-        //        bool isCurrStrAPalindrome = isPalindrome(str);
-        //        Console.WriteLine("Expected False. Got: " + isCurrStrAPalindrome);
-        //        allTestsPassed &= !isCurrStrAPalindrome;
-        //    }
-
-        //    messageToUser = allTestsPassed ? "All tests passed successfully" : "Some tests failed";
-        //    Console.WriteLine("\n" + messageToUser);
-
-        //    return allTestsPassed;
-        //}
 
         public static bool testFunction(Func<string, bool> functionToTest, string[] successStrings, string[] failStrings)
         {
