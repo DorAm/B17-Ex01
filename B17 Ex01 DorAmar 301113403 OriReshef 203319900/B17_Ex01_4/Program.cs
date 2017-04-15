@@ -10,33 +10,47 @@ namespace B17_Ex01_4
             
         public static void Main(string[] args)
         {
+            string inputString;
+            
+            do
+            {
+                Console.WriteLine("Please enter an 8 character string that is either a number or a letters string, but not both\n");
+                inputString = Console.ReadLine();
 
-            runTests();
+            } while (!isValidInput(inputString));
 
-            //Console.WriteLine("The average of 521621 is " + calcAverageOfDigits("521621"));
-            //Console.WriteLine("getNumberOfUpperCaseChars = " + getNumberOfUpperCaseChars("AGsySFGsafjlk"));
+            Console.WriteLine("The given string " + (isPalindrome(inputString) ? "is a" : "is not a") + "palindrome");
 
-            //isPalindromeTests();
-            //isNumber("abc");
+            if (isNumber(inputString))
+            {
+                Console.WriteLine("The average of digits is " + calcAverageOfDigits(inputString));
+            }
+            else if (isLettersString(inputString))
+            {
+                Console.WriteLine("The number of uppercase characters is " + getNumberOfUpperCaseChars(inputString));
+            }
+
+            // for testing the functions:
+            //runTests();
         }
 
         // Core Functions
 
-        public static bool isPalindrome(string i_string)
+        public static bool isPalindrome(string i_String)
         {
             bool result;
 
-            if (i_string.Length <= 1)
+            if (i_String.Length <= 1)
             {
                 result = true;
             }
-            else if (i_string[0] != i_string[i_string.Length - 1])
+            else if (i_String[0] != i_String[i_String.Length - 1])
             {
                 result = false;
             }
             else
             {
-                result = isPalindrome(i_string.Substring(1, i_string.Length - 2));
+                result = isPalindrome(i_String.Substring(1, i_String.Length - 2));
             }
 
             return result;
@@ -95,6 +109,11 @@ namespace B17_Ex01_4
 
         // String Validation
 
+        public static bool isValidInput(string i_String)
+        {
+            return i_String.Length == 8 && ( isNumber(i_String) || isLettersString(i_String) );
+        }
+
         public static bool isNumber(string i_String)
         {
             bool givenStringIsANumber = true;
@@ -134,11 +153,15 @@ namespace B17_Ex01_4
 
             testFunction(isLettersString, letterStrings, nonLetterStrings);
 
+            string[] validInput = { "hjgtdbgc", "jnkhikjn", "89786545", "jkdncjsk", "abcddbca", "11111111", "12345678", "10101010" };
+            string[] nonVaildInput = { "123456", "saklf8", "!@@^5", "^@(*JDFs*#", "Hello%Guys!", "12345$78", "9f9f9f", "", "aba", "aedrf", "qwe234" };
+
+            testFunction(isValidInput, validInput, nonVaildInput);
+
             string[] palindromeStrings = { "abgdseesdgba", "racecar", "racccar", "aba", "agga", "agdgfsaasfgdga", "a", "" };
             string[] nonPalindromeStrings = { "abgds3esdgba", "asfgatgjsarlksagila", "adffde", "adfgda", "rascar", "LoremIpsum" };
 
             testFunction(isPalindrome, palindromeStrings, nonPalindromeStrings);
-            
         }
 
         public static bool testFunction(Func<string, bool> functionToTest, string[] successStrings, string[] failStrings)
@@ -151,14 +174,15 @@ namespace B17_Ex01_4
             foreach (string str in successStrings)
             {
                 bool resultForCurrentStr = functionToTest(str);
-                Console.WriteLine("Expected True. Got: " + resultForCurrentStr);
+                Console.WriteLine("Expected True. got: " + resultForCurrentStr + " in " + str);
+
                 allTestsPassed &= resultForCurrentStr;
             }
 
             foreach (string str in failStrings)
             {
                 bool resultForCurrentStr = functionToTest(str);
-                Console.WriteLine("Expected False. Got: " + resultForCurrentStr);
+                Console.WriteLine("Expected False. got: " + resultForCurrentStr + " in " + str);
                 allTestsPassed &= !resultForCurrentStr;
             }
 
