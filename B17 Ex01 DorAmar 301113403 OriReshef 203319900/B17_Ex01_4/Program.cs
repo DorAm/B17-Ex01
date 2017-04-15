@@ -1,7 +1,4 @@
-﻿
-// TODO: input validation, tests for average and uppercase
-
-using System;
+﻿using System;
 
 namespace B17_Ex01_4
 {
@@ -19,7 +16,7 @@ namespace B17_Ex01_4
 
             } while (!isValidInput(inputString));
 
-            Console.WriteLine("The given string " + (isPalindrome(inputString) ? "is a" : "is not a") + "palindrome");
+            Console.WriteLine("The given string " + (isPalindrome(inputString) ? "is a " : "is not a ") + "palindrome");
 
             if (isNumber(inputString))
             {
@@ -56,6 +53,7 @@ namespace B17_Ex01_4
             return result;
         }
 
+        //TODO: there is a bug in this function, the average is not computed properly
         public static float calcAverageOfDigits(string i_String)
         {
             float averageOfDigits = 0;
