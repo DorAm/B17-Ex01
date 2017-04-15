@@ -2,15 +2,15 @@
 
 namespace B17_Ex_01_2
 {
-    class Program
+    public class Program
     {
         public static void Main()
         {
-            printSandClock(7);
+            PrintSandClock(5);
             System.Console.ReadLine();
         }
 
-        private static void printSandClock(int i_ClockHight)
+        public static void PrintSandClock(int i_ClockHight)
         {
             StringBuilder mySandClock = new StringBuilder();
             for (int i = 0; i < i_ClockHight / 2; i++)
