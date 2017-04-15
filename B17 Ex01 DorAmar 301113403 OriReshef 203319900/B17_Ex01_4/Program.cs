@@ -10,56 +10,36 @@ namespace B17_Ex01_4
             
         public static void Main(string[] args)
         {
-            //string[] palindromeStrings = { "abgdseesdgba", "racecar", "racccar", "aba", "ag1234554321ga", "a", "" };
-            //string[] nonPalindromeStrings = { "abgds3esdgba", "3859jsarlk48ila", "adffde", "adfgda", "rascar", "LoremIpsum" };
 
-            //testFunction(isPalindrome, palindromeStrings, nonPalindromeStrings);
-
-            //string[] numberStrings = { "891204", "124", "5981205", "0", "", "909090", "767767" };
-            //string[] nonNumberStrings = { "racecar", "Hello! 5125", "521990H", "8989a5215", "890$89", "@!%^!@", "0x89" };
-
-            //testFunction(isNumber, numberStrings, nonNumberStrings);
+            runTests();
 
             //Console.WriteLine("The average of 521621 is " + calcAverageOfDigits("521621"));
-            Console.WriteLine("getNumberOfUpperCaseChars = " + getNumberOfUpperCaseChars("AGsySFGsafjlk"));
+            //Console.WriteLine("getNumberOfUpperCaseChars = " + getNumberOfUpperCaseChars("AGsySFGsafjlk"));
 
             //isPalindromeTests();
             //isNumber("abc");
         }
 
+        // Core Functions
 
-        //public static short isInputValid(string i_String)
-        //{
-
-        //    bool numberExistInString = false, letterExistInString = false;
-
-        //    while ()
-        //    {
-        //        if 
-        //    }
-        //    foreach (char character in i_String)
-        //    {
-
-        //        if ('A' <= character && character <= 'Z') || ('A' <= character && character <= 'Z')
-        //        {
-        //            numberExistInString++;
-        //        }
-        //    }
-        //}
-
-        public static short getNumberOfUpperCaseChars(string i_String)
+        public static bool isPalindrome(string i_string)
         {
-            short numberOfUppercaseChars = 0;
+            bool result;
 
-            foreach (char character in i_String)
+            if (i_string.Length <= 1)
             {
-                if ('A' <= character && character <= 'Z')
-                {
-                    numberOfUppercaseChars++;
-                }
+                result = true;
+            }
+            else if (i_string[0] != i_string[i_string.Length - 1])
+            {
+                result = false;
+            }
+            else
+            {
+                result = isPalindrome(i_string.Substring(1, i_string.Length - 2));
             }
 
-            return numberOfUppercaseChars;
+            return result;
         }
 
         public static float calcAverageOfDigits(string i_String)
@@ -83,12 +63,37 @@ namespace B17_Ex01_4
             else
             {
                 Console.WriteLine("Error, invalid number entered");
-                averageOfDigits = - 1;
+                averageOfDigits = -1;
             }
 
             averageOfDigits = sumOfDigits / numberOfDigits;
             return averageOfDigits;
         }
+
+        public static short getNumberOfUpperCaseChars(string i_String)
+        {
+            short numberOfUppercaseChars = 0;
+
+            if (isLettersString(i_String))
+            {
+                foreach (char character in i_String)
+                {
+                    if ('A' <= character && character <= 'Z')
+                    {
+                        numberOfUppercaseChars++;
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine("Error, invalid letter string entered");
+                numberOfUppercaseChars = -1;
+            }
+            
+            return numberOfUppercaseChars;
+        }
+
+        // String Validation
 
         public static bool isNumber(string i_String)
         {
@@ -102,23 +107,38 @@ namespace B17_Ex01_4
             return givenStringIsANumber;
         }
 
-        public static bool isPalindrome(string i_string)
+        public static bool isLettersString(string i_String)
         {
-            bool result;
+            bool givenStringIsALettersString = true;
 
-            if (i_string.Length <= 1)
+            foreach (char character in i_String)
             {
-                result = true;
-            }
-            else if (i_string[0] != i_string[i_string.Length - 1])
-            {
-                result = false;
-            }
-            else {
-                result = isPalindrome(i_string.Substring(1, i_string.Length - 2));
+                givenStringIsALettersString &= ('a' <= character && character <= 'z') || ('A' <= character && character <= 'Z');
             }
 
-            return result;
+            return givenStringIsALettersString;
+        }
+                
+        // Testing
+
+        public static void runTests()
+        {
+
+            string[] numberStrings = { "891204", "124", "5981205", "0", "", "909090", "767767" };
+            string[] nonNumberStrings = { "racecar", "Hello! 5125", "521990H", "8989a5215", "890$89", "@!%^!@", "0x89" };
+
+            testFunction(isNumber, numberStrings, nonNumberStrings);
+
+            string[] letterStrings = { "jasklf", "HelloWorld", "klasjfklui", "", "a", "aba", "feofs" };
+            string[] nonLetterStrings = { "1259", "767767", "saklf8", "!@@^5", "^@(*JDFs*#", "HelloGuys!" };
+
+            testFunction(isLettersString, letterStrings, nonLetterStrings);
+
+            string[] palindromeStrings = { "abgdseesdgba", "racecar", "racccar", "aba", "agga", "agdgfsaasfgdga", "a", "" };
+            string[] nonPalindromeStrings = { "abgds3esdgba", "asfgatgjsarlksagila", "adffde", "adfgda", "rascar", "LoremIpsum" };
+
+            testFunction(isPalindrome, palindromeStrings, nonPalindromeStrings);
+            
         }
 
         public static bool testFunction(Func<string, bool> functionToTest, string[] successStrings, string[] failStrings)
