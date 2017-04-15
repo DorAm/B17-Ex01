@@ -1,12 +1,58 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 
 namespace B17_Ex_01_2
 {
     class Program
     {
+        public static void Main()
+        {
+            printSandClock(7);
+            System.Console.ReadLine();
+        }
+
+        private static void printSandClock(int i_ClockHight)
+        {
+            StringBuilder mySandClock = new StringBuilder();
+            for (int i = 0; i < i_ClockHight / 2; i++)
+            {
+                addSpacesToClock(mySandClock, i);
+
+                for (int j = 0; j < i_ClockHight - (i * 2); j++)
+                {
+                    mySandClock.Append("* ");
+                }
+
+                addSpacesToClock(mySandClock, i);
+                mySandClock.Append("\n");
+            }
+
+           
+            for (int i = i_ClockHight/2; i >= 0; i--)
+            {
+                addSpacesToClock(mySandClock, i);
+
+                for (int j = 0; j < i_ClockHight - (i * 2); j++)
+                {
+                    mySandClock.Append("* ");
+                }
+
+                addSpacesToClock(mySandClock, i);
+                mySandClock.Append("\n");
+            }
+
+           System.Console.WriteLine(mySandClock.ToString());
+        }
+
+        private static void addSpacesToClock(StringBuilder io_SandClock, int i_CurrHight)
+        {
+            for (int i = 0; i < i_CurrHight; i++)
+            {
+                
+              io_SandClock.Append("  ");
+               
+            }
+
+
+        }
     }
 }
