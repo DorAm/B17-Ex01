@@ -25,7 +25,8 @@ namespace B17_Ex_01_3
 
         private static bool checkUserInput(string i_UserInput)
         {
-            float testedInput = float.Parse(i_UserInput);
+            float testedInput;
+            float.TryParse(i_UserInput, out testedInput);
             return testedInput > 0 && (testedInput % 1) == 0;
         }
     }
