@@ -38,7 +38,7 @@
     <Compile Include="Program.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\B17_Ex_01_2\B17_Ex_01_2.csproj">
+    <ProjectReference Include="..\B17_Ex01_2\B17_Ex01_2.csproj">
       <Project>{8260865e-41d6-45bc-a57c-625bc73f2180}</Project>
       <Name>B17_Ex_01_2</Name>
     </ProjectReference>
