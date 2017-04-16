@@ -5,7 +5,7 @@ namespace B17_Ex01_1
     {
         public static void Main(string[] args)
         {
-            float[] inputNumbers = new float[3];
+            short[] inputNumbers = new short[3];
             string[] binaryNumbers = new string[3];
 
             // Input
@@ -17,7 +17,7 @@ namespace B17_Ex01_1
             // Binary Numbers
             for (int i = 0; i < 3; i++)
             {
-                binaryNumbers[i] = convertFloatToBinary(inputNumbers[i]);
+                binaryNumbers[i] = convertShortToBinary(inputNumbers[i]);
                 System.Console.WriteLine(binaryNumbers[i]);
             }
 
@@ -27,55 +27,66 @@ namespace B17_Ex01_1
             printMonotonicSeriesStat(inputNumbers);
 
             // Numbers Average
-            System.Console.WriteLine("The Average is" + calcNumbersAverage(inputNumbers));
+            System.Console.WriteLine("The Average of the 3 numbers is " + calcNumbersAverage(inputNumbers));
         }
 
         // Input
-        private static float getNumberFromUser()
+        private static short getNumberFromUser()
         {
             bool isValidInput = true;
-            float inputNumber;
+            string inputNumber;
+            short parsedInputNumber = 0;
 
             do
             {
                 string messageToUser = isValidInput ? "please enter a three digit natural number\n" :
                                                       "Error!\nplease enter a valid input\n";
                 System.Console.WriteLine(messageToUser);
+                inputNumber = System.Console.ReadLine();
+                isValidInput = is3DigitNaturalNumber(inputNumber, ref parsedInputNumber);
 
-                inputNumber = float.Parse(System.Console.ReadLine());
-                isValidInput = is3DigitNaturalNumber(inputNumber);
             } while (!isValidInput);
 
-            return inputNumber;
+            return parsedInputNumber;
         }
 
-        private static bool is3DigitNaturalNumber(float i_InputNumber)
+        private static bool is3DigitNaturalNumber(string i_InputNumber, ref short o_ParsedInputNumber)
         {
 
-            return (100 <= i_InputNumber && i_InputNumber <= 999) &&
-                (i_InputNumber % 1 == 0);
+            bool isValidInput = true;
+
+
+            if (short.TryParse(i_InputNumber, out o_ParsedInputNumber))
+            {
+                isValidInput = (o_ParsedInputNumber % 1 == 0) && i_InputNumber.Length == 3;
+            }
+
+            else
+            {
+                isValidInput = false;
+            }
+
+            return isValidInput;
         }
 
         // Binary Numbers
-        private static string convertFloatToBinary(float i_FloatNumber)
+        private static string convertShortToBinary(short i_ShortNumber)
         {       
-            string calculatedNumber = "0";
+            string calculatedNumber = "";
 
-            while(i_FloatNumber > 0)
+            while(i_ShortNumber > 0)
             {
-                calculatedNumber = (Floor(i_FloatNumber % 2)).ToString() + calculatedNumber ;
-                i_FloatNumber = (float)Floor(i_FloatNumber /= 2);
+                calculatedNumber = (i_ShortNumber % 2).ToString() + calculatedNumber ;
+                i_ShortNumber = i_ShortNumber /= 2;
             }
-
-            calculatedNumber.TrimStart('0');
 
             return calculatedNumber;
         }
 
         private static void printBinaryDigitsStat(string[] i_IntputNumbers)
         {
-            float numOfZero = 0;
-            float numOfOnes = 0;
+            short numOfZero = 0;
+            short numOfOnes = 0;
             float averageNumZero;
             float averageNumOnes;
 
@@ -87,6 +98,7 @@ namespace B17_Ex01_1
                     {
                         numOfZero += 1;
                     }
+
                     else
                     {
                         numOfOnes += 1;
@@ -95,16 +107,16 @@ namespace B17_Ex01_1
             }
             averageNumOnes = numOfOnes / 3;
             averageNumZero = numOfZero / 3;
-            System.Console.WriteLine("averageNumZero:" + averageNumZero + "\naverageNumOne:" + averageNumOnes);
+            System.Console.WriteLine("the average number of zeros is: " + averageNumZero + "\nthe average number of ones is: " + averageNumOnes);
         }
 
         // Monotonic Series
-        private static void printMonotonicSeriesStat(float[] i_IntputNumbers)
+        private static void printMonotonicSeriesStat(short[] i_IntputNumbers)
         {
-            float quantityOfInputNumbersFormingAnAscendingSeries = 0;
-            float quantityOfInputNumbersFormingADecendingSeries = 0;
+            short quantityOfInputNumbersFormingAnAscendingSeries = 0;
+            short quantityOfInputNumbersFormingADecendingSeries = 0;
 
-            foreach (float number in i_IntputNumbers)
+            foreach (short number in i_IntputNumbers)
             {
                 if (isAscendingSeries(number))
                 {
@@ -117,33 +129,33 @@ namespace B17_Ex01_1
                 }
             }
 
-            System.Console.WriteLine("quantityOfInputNumbersFormingAnAscendingSeries = " + quantityOfInputNumbersFormingAnAscendingSeries);
-            System.Console.WriteLine("quantityOfInputNumbersFormingADecendingSeries = " + quantityOfInputNumbersFormingADecendingSeries);
+            System.Console.WriteLine("The number of input numbers forming an ascending series = " + quantityOfInputNumbersFormingAnAscendingSeries);
+            System.Console.WriteLine("The number of input numbers forming an decending series = " + quantityOfInputNumbersFormingADecendingSeries);
         }
 
-        private static bool isAscendingSeries(float i_Number)
+        private static bool isAscendingSeries(short i_Number)
         {
             const bool v_CheckIfAscending = true;
 
             return isMonotonicSeries(i_Number, v_CheckIfAscending);
         }
 
-        private static bool isDescendingSeries(float i_Number)
+        private static bool isDescendingSeries(short i_Number)
         {
             const bool v_CheckIfAscending = true;
 
             return isMonotonicSeries(i_Number, !v_CheckIfAscending);
         }
 
-        private static bool isMonotonicSeries(float i_Number, bool i_CheckIfAscending)
+        private static bool isMonotonicSeries(short i_Number, bool i_CheckIfAscending)
         {
             bool monotonicSeries = true;
 
             for (int i = 0; i < 2 && monotonicSeries; i++)
             {
-                float previousDigit = i_Number % 10;
-                i_Number = i_Number / 10 - previousDigit / 10;
-                float currentDigit = i_Number % 10;
+                short previousDigit = (short)(i_Number % 10);
+                i_Number = (short)(i_Number / 10 - previousDigit / 10);
+                short currentDigit = (short)(i_Number % 10);
                 monotonicSeries = (i_CheckIfAscending) ? currentDigit < previousDigit :
                                                          currentDigit > previousDigit;
             }
@@ -152,16 +164,17 @@ namespace B17_Ex01_1
         }
         
         // Numbers Average
-        private static float calcNumbersAverage(float[] i_Numbers)
+        private static float calcNumbersAverage(short[] i_Numbers)
         {
             float sum = 0;
 
-            foreach (float number in i_Numbers)
+            foreach (short number in i_Numbers)
             {
                 sum += number;
             }
 
             return sum / i_Numbers.Length;
         }
+
     }
 }
