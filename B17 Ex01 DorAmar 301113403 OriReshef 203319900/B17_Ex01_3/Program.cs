@@ -2,32 +2,36 @@
 using B17_Ex_01_2;
 
 namespace B17_Ex_01_3
-
 {
     class Program
     {
         public static void Main()
         {
             string userInput;
+            short sandClockHeight = 0;
 
             do
             {
-                System.Console.WriteLine("Hello! please enter your clock hight - a positive natural number.");
-                userInput = System.Console.ReadLine();
-            } while (!checkUserInput(userInput));
+                Console.WriteLine("Hello! please enter your clock height - a positive natural number.");
+                userInput = Console.ReadLine();
+            } while (!checkUserInput(userInput, ref sandClockHeight));
 
-            short sandClockHight = short.Parse(userInput);
-            sandClockHight = (sandClockHight % 2) == 0 ? (short)(sandClockHight + 1) : (short)(sandClockHight + 0) ;
-           
-            B17_Ex_01_2.Program.PrintSandClock(sandClockHight);
-            
+            sandClockHeight = (sandClockHeight % 2) == 0 ? (short)(sandClockHeight + 1) : (short)(sandClockHeight + 0);
+
+            B17_Ex_01_2.Program.PrintSandClock(sandClockHeight);
+
         }
 
-        private static bool checkUserInput(string i_UserInput)
+        private static bool checkUserInput(string i_UserClockHeightInput, ref short o_SandClockHeight)
         {
-            float testedInput;
-            float.TryParse(i_UserInput, out testedInput);
-            return testedInput > 0 && (testedInput % 1) == 0;
+            bool isValidInput = false;
+
+            if (short.TryParse(i_UserClockHeightInput, out o_SandClockHeight))
+            {
+                isValidInput = o_SandClockHeight > 0;
+            }
+
+            return isValidInput;
         }
     }
 }

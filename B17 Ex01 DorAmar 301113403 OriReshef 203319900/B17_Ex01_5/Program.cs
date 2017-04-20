@@ -7,25 +7,28 @@ namespace B17_Ex01_5
     {
         public static void Main(string[] args)
         {
-            short minDigitInNumber = 0, maxDigitInNumber = 0;
-            short io_greaterThanFirstDigitCounter = 0, io_smallerThanFirstDigitCounter = 0;
+            ushort minDigitInNumber = 0, maxDigitInNumber = 0;
+            ushort io_greaterThanFirstDigitCounter = 0, io_smallerThanFirstDigitCounter = 0;
 
-            int inputNumber = getNumberFromUser();
+            uint inputNumber = getNumberFromUser();
 
             findMinAndMaxDigit(inputNumber, ref minDigitInNumber, ref maxDigitInNumber);
-            Console.WriteLine("The maximum digit in the given number is " + maxDigitInNumber);
-            Console.WriteLine("The minimum digit in the given number is " + minDigitInNumber);
+            Console.WriteLine("The maximum digit in the given number is {0} ", maxDigitInNumber);
+            Console.WriteLine("The minimum digit in the given number is {0} ", minDigitInNumber);
 
             findNumberOfDigitsGreaterAndSmallerThenFirstDigit(inputNumber, ref io_greaterThanFirstDigitCounter, ref io_smallerThanFirstDigitCounter);
-            Console.WriteLine("The number of digits greater then the first digit is " + io_greaterThanFirstDigitCounter);
-            Console.WriteLine("The number of digits smaller then the first digit is " + io_smallerThanFirstDigitCounter);
+            Console.WriteLine("The number of digits greater then the first digit is {0} ", io_greaterThanFirstDigitCounter);
+            Console.WriteLine("The number of digits smaller then the first digit is {0} ", io_smallerThanFirstDigitCounter);
 
+            Console.WriteLine("press enter for exit!!!");
+            Console.ReadLine();
         }
 
-        private static int getNumberFromUser()
+        private static uint getNumberFromUser()
         {
             bool isValidInput = true;
-            int inputNumber;
+            string inputNumber;
+            uint parsedNumber = 0;
 
             do
             {
@@ -33,27 +36,33 @@ namespace B17_Ex01_5
                                                       "Error! Please enter a valid input\n";
                 System.Console.WriteLine(messageToUser);
 
-                inputNumber = int.Parse(System.Console.ReadLine());
-                isValidInput = is8DigitNaturalNumber(inputNumber);
+                inputNumber = System.Console.ReadLine();
+                isValidInput = is8DigitNaturalNumber(inputNumber, ref parsedNumber);
             } while (!isValidInput);
 
-            return inputNumber;
+            return parsedNumber;
         }
 
-        private static bool is8DigitNaturalNumber(float i_InputNumber)
+        private static bool is8DigitNaturalNumber(string i_InputNumber, ref uint o_ParsedInputNumber)
         {
 
-            return (10000000 <= i_InputNumber && i_InputNumber <= 99999999) &&
-                (i_InputNumber % 1 == 0);
+            bool isValidInput = false;
+           
+            if (uint.TryParse(i_InputNumber, out o_ParsedInputNumber))
+            {
+                isValidInput =  i_InputNumber.Length == 8;
+            }
+
+            return isValidInput;
         }
 
-        public static void findMinAndMaxDigit(int i_NaturalNumber, ref short io_MinDigit, ref short io_MaxDigit)
+        public static void findMinAndMaxDigit(uint i_NaturalNumber, ref ushort io_MinDigit, ref ushort io_MaxDigit)
         {
-            io_MinDigit = io_MaxDigit = (short)(i_NaturalNumber % 10);  // init to the first digit
+            io_MinDigit = io_MaxDigit = (ushort)(i_NaturalNumber % 10);  // init to the first digit
             
             while (i_NaturalNumber > 0)
             {
-                short currentDigit = (short)(i_NaturalNumber % 10);
+                ushort currentDigit = (ushort)(i_NaturalNumber % 10);
                 if (io_MinDigit > currentDigit)
                 {
                     io_MinDigit = currentDigit;
@@ -68,13 +77,13 @@ namespace B17_Ex01_5
             }
         }
 
-        public static void findNumberOfDigitsGreaterAndSmallerThenFirstDigit(int i_NaturalNumber, ref short io_greaterThanFirstDigitCounter, ref short io_smallerThanFirstDigitCounter)
+        public static void findNumberOfDigitsGreaterAndSmallerThenFirstDigit(uint i_NaturalNumber, ref ushort io_greaterThanFirstDigitCounter, ref ushort io_smallerThanFirstDigitCounter)
         {
-            short firstDigit = (short)(i_NaturalNumber % 10);
+            ushort firstDigit = (ushort)(i_NaturalNumber % 10);
 
             while (i_NaturalNumber > 0)
             {
-                short currentDigit = (short)(i_NaturalNumber % 10);
+                ushort currentDigit = (ushort)(i_NaturalNumber % 10);
 
                 if (currentDigit > firstDigit)
                 {

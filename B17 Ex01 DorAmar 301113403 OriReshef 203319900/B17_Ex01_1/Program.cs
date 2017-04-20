@@ -1,4 +1,5 @@
 ﻿using static System.Math;
+using System.Text;
 namespace B17_Ex01_1
 {
     class Program
@@ -6,7 +7,7 @@ namespace B17_Ex01_1
         public static void Main(string[] args)
         {
             short[] inputNumbers = new short[3];
-            string[] binaryNumbers = new string[3];
+            StringBuilder[] binaryNumbers = new StringBuilder[3];
 
             // Input
             for (int i = 0; i < 3; i++)
@@ -27,7 +28,7 @@ namespace B17_Ex01_1
             printMonotonicSeriesStat(inputNumbers);
 
             // Numbers Average
-            System.Console.WriteLine("The Average of the 3 numbers is " + calcNumbersAverage(inputNumbers));
+            System.Console.WriteLine("The Average of the 3 numbers is {0} ", calcNumbersAverage(inputNumbers));
         }
 
         // Input
@@ -53,48 +54,43 @@ namespace B17_Ex01_1
         private static bool is3DigitNaturalNumber(string i_InputNumber, ref short o_ParsedInputNumber)
         {
 
-            bool isValidInput = true;
+            bool isValidInput = false;
 
 
             if (short.TryParse(i_InputNumber, out o_ParsedInputNumber))
             {
-                isValidInput = (o_ParsedInputNumber % 1 == 0) && i_InputNumber.Length == 3;
-            }
-
-            else
-            {
-                isValidInput = false;
+                isValidInput = o_ParsedInputNumber > 0 && i_InputNumber.Length == 3;
             }
 
             return isValidInput;
         }
 
         // Binary Numbers
-        private static string convertShortToBinary(short i_ShortNumber)
+        private static StringBuilder convertShortToBinary(short i_ShortNumber)
         {       
-            string calculatedNumber = "";
+            StringBuilder calculatedNumber = new StringBuilder();
 
             while(i_ShortNumber > 0)
             {
-                calculatedNumber = (i_ShortNumber % 2).ToString() + calculatedNumber ;
+                calculatedNumber.Insert(0,(i_ShortNumber % 2).ToString()) ;
                 i_ShortNumber = i_ShortNumber /= 2;
             }
 
             return calculatedNumber;
         }
 
-        private static void printBinaryDigitsStat(string[] i_IntputNumbers)
+        private static void printBinaryDigitsStat(StringBuilder[] i_IntputNumbers)
         {
-            short numOfZero = 0;
-            short numOfOnes = 0;
+            float numOfZero = 0;
+            float numOfOnes = 0;
             float averageNumZero;
             float averageNumOnes;
 
-            for (int i = 0; i < 3; i++)
+            foreach (StringBuilder binaryNumber in i_IntputNumbers)
             {
-                foreach (char item in i_IntputNumbers[i])
+                for (int i = 0; i < binaryNumber.Length; i++)
                 {
-                    if (item == '0')
+                    if (binaryNumber[i] == '0')
                     {
                         numOfZero += 1;
                     }
@@ -105,6 +101,7 @@ namespace B17_Ex01_1
                     }
                 }
             }
+            
             averageNumOnes = numOfOnes / 3;
             averageNumZero = numOfZero / 3;
             System.Console.WriteLine("the average number of zeros is: " + averageNumZero + "\nthe average number of ones is: " + averageNumOnes);

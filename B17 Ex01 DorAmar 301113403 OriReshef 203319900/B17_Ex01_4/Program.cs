@@ -8,26 +8,36 @@ namespace B17_Ex01_4
         public static void Main(string[] args)
         {
             string inputString;
-            
+            int parsedInput;
+
             do
             {
                 Console.WriteLine("Please enter an 8 character string that is either a number or a letters string, but not both\n");
                 inputString = Console.ReadLine();
 
-            } while (!isValidInput(inputString));
+            } while (!isValidInput(inputString, out parsedInput));
 
-            Console.WriteLine("The given string " + (isPalindrome(inputString) ? "is a " : "is not a ") + "palindrome");
 
-            if (isNumber(inputString))
+            if (isPalindrome(inputString))
             {
-                Console.WriteLine("The average of digits is " + calcAverageOfDigits(inputString));
+                Console.WriteLine("The given string is a palindrome");
+            }
+
+            else
+            {
+                Console.WriteLine("The given string is not a palindrome");
+            }
+
+            if (isNaturalNumber(inputString, out parsedInput))
+            {
+                Console.WriteLine("The average of digits is {0} ", calcAverageOfDigits(parsedInput));
             }
             else if (isLettersString(inputString))
             {
-                Console.WriteLine("The number of uppercase characters is " + getNumberOfUpperCaseChars(inputString));
+                Console.WriteLine("The number of uppercase characters is {0} ", getNumberOfUpperCaseChars(inputString));
             }
 
-            // for testing the functions:
+            //for testing the functions:
             //runTests();
         }
 
@@ -53,29 +63,22 @@ namespace B17_Ex01_4
             return result;
         }
 
-        //TODO: there is a bug in this function, the average is not computed properly
-        public static float calcAverageOfDigits(string i_String)
+        public static float calcAverageOfDigits(int i_InputNumber)
         {
             float averageOfDigits = 0;
             float sumOfDigits = 0;
             short numberOfDigits = 0;
 
-            if (isNumber(i_String))
+            //int numberAsInt = int.Parse(i_String);
+            while (i_InputNumber > 0)
             {
-                int numberAsInt = int.Parse(i_String);
-                while (numberAsInt > 0)
-                {
-                    short currentDigit = (short)(numberAsInt % 10);
-                    numberOfDigits++;
-                    sumOfDigits += currentDigit;
-                    numberAsInt /= 10;
-                }
-            }
+                int currentDigit;
+                i_InputNumber = Math.DivRem(i_InputNumber, 10, out currentDigit);
 
-            else
-            {
-                Console.WriteLine("Error, invalid number entered");
-                averageOfDigits = -1;
+                //short currentDigit = (short)(i_InputNumber % 10);
+                numberOfDigits++;
+                sumOfDigits += currentDigit;
+                //i_InputNumber /= 10;
             }
 
             averageOfDigits = sumOfDigits / numberOfDigits;
@@ -107,21 +110,15 @@ namespace B17_Ex01_4
 
         // String Validation
 
-        public static bool isValidInput(string i_String)
+        public static bool isValidInput(string i_InputString, out int o_ParsedNumber)
         {
-            return i_String.Length == 8 && ( isNumber(i_String) || isLettersString(i_String) );
+            o_ParsedNumber = 0;
+            return i_InputString.Length == 8 && (int.TryParse(i_InputString, out o_ParsedNumber) && o_ParsedNumber > 0 || isLettersString(i_InputString) );
         }
 
-        public static bool isNumber(string i_String)
+        public static bool isNaturalNumber(string i_InputString, out int o_ParsedNumber)
         {
-            bool givenStringIsANumber = true;
-
-            foreach (char character in i_String)
-            {
-                givenStringIsANumber &= ('0' <= character && character <= '9');
-            }
-
-            return givenStringIsANumber;
+            return int.TryParse(i_InputString, out o_ParsedNumber) && o_ParsedNumber > 0;
         }
 
         public static bool isLettersString(string i_String)
@@ -135,44 +132,44 @@ namespace B17_Ex01_4
 
             return givenStringIsALettersString;
         }
-                
-        // Testing
 
-        public static void runTests()
-        {
+        // Testing- not valid at this version
 
-            string[] numberStrings = { "891204", "124", "5981205", "0", "", "909090", "767767" };
-            string[] nonNumberStrings = { "racecar", "Hello! 5125", "521990H", "8989a5215", "890$89", "@!%^!@", "0x89" };
+        //public static void runTests()
+        //{
 
-            testFunction(isNumber, numberStrings, nonNumberStrings);
+        //    string[] numberStrings = { "891204", "124", "5981205", "909090", "767767" };
+        //    string[] nonNumberStrings = { "racecar", "Hello! 5125", "521990H", "8989a5215", "890$89", "@!%^!@", "0x89" };
 
-            string[] letterStrings = { "jasklf", "HelloWorld", "klasjfklui", "", "a", "aba", "feofs" };
-            string[] nonLetterStrings = { "1259", "767767", "saklf8", "!@@^5", "^@(*JDFs*#", "HelloGuys!" };
+        //    testFunction(isNaturalNumber, numberStrings, nonNumberStrings);
 
-            testFunction(isLettersString, letterStrings, nonLetterStrings);
+        //    string[] letterStrings = { "jasklf", "HelloWorld", "klasjfklui", "", "a", "aba", "feofs" };
+        //    string[] nonLetterStrings = { "1259", "767767", "saklf8", "!@@^5", "^@(*JDFs*#", "HelloGuys!" };
 
-            string[] validInput = { "hjgtdbgc", "jnkhikjn", "89786545", "jkdncjsk", "abcddbca", "11111111", "12345678", "10101010" };
-            string[] nonVaildInput = { "123456", "saklf8", "!@@^5", "^@(*JDFs*#", "Hello%Guys!", "12345$78", "9f9f9f", "", "aba", "aedrf", "qwe234" };
+        //    testFunction(isLettersString, letterStrings, nonLetterStrings);
 
-            testFunction(isValidInput, validInput, nonVaildInput);
+        //    string[] validInput = { "hjgtdbgc", "jnkhikjn", "89786545", "jkdncjsk", "abcddbca", "11111111", "12345678", "10101010" };
+        //    string[] nonVaildInput = { "123456", "saklf8", "!@@^5", "^@(*JDFs*#", "Hello%Guys!", "12345$78", "9f9f9f", "", "aba", "aedrf", "qwe234" };
 
-            string[] palindromeStrings = { "abgdseesdgba", "racecar", "racccar", "aba", "agga", "agdgfsaasfgdga", "a", "" };
-            string[] nonPalindromeStrings = { "abgds3esdgba", "asfgatgjsarlksagila", "adffde", "adfgda", "rascar", "LoremIpsum" };
+        //    testFunction(isValidInput, validInput, nonVaildInput);
 
-            testFunction(isPalindrome, palindromeStrings, nonPalindromeStrings);
-        }
+        //    string[] palindromeStrings = { "abgdseesdgba", "racecar", "racccar", "aba", "agga", "agdgfsaasfgdga", "a", "" };
+        //    string[] nonPalindromeStrings = { "abgds3esdgba", "asfgatgjsarlksagila", "adffde", "adfgda", "rascar", "LoremIpsum" };
+
+        //    testFunction(isPalindrome, palindromeStrings, nonPalindromeStrings);
+        //}
 
         public static bool testFunction(Func<string, bool> functionToTest, string[] successStrings, string[] failStrings)
         {
             bool allTestsPassed = true;
             string messageToUser = "";
 
-            Console.WriteLine("Testing Function " + functionToTest.Method +"\n");
+            Console.WriteLine("Testing Function {0} \n", functionToTest.Method);
 
             foreach (string str in successStrings)
             {
                 bool resultForCurrentStr = functionToTest(str);
-                Console.WriteLine("Expected True. got: " + resultForCurrentStr + " in " + str);
+                Console.WriteLine("Expected True. got: {0} in {1}", resultForCurrentStr, str);
 
                 allTestsPassed &= resultForCurrentStr;
             }
@@ -180,12 +177,12 @@ namespace B17_Ex01_4
             foreach (string str in failStrings)
             {
                 bool resultForCurrentStr = functionToTest(str);
-                Console.WriteLine("Expected False. got: " + resultForCurrentStr + " in " + str);
+                Console.WriteLine("Expected False. got: {0} in {1}", resultForCurrentStr, str);
                 allTestsPassed &= !resultForCurrentStr;
             }
 
             messageToUser = allTestsPassed ? "All tests passed successfully" : "Some tests failed";
-            Console.WriteLine("\n" + messageToUser);
+            Console.WriteLine("{0}", messageToUser);
             Console.WriteLine("------------------------------------------------------------------\n");
 
             return allTestsPassed;

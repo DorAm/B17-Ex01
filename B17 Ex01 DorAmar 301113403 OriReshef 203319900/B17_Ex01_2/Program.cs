@@ -7,13 +7,13 @@ namespace B17_Ex_01_2
         public static void Main()
         {
             PrintSandClock(5);
-            System.Console.ReadLine();
         }
 
         public static void PrintSandClock(int i_ClockHight)
         {
             StringBuilder mySandClock = new StringBuilder();
-            for (int i = 0; i < i_ClockHight / 2; i++)
+
+            for (int i = 0; i < i_ClockHight / 2; i++) //top half of clock
             {
                 addSpacesToClock(mySandClock, i);
 
@@ -22,12 +22,11 @@ namespace B17_Ex_01_2
                     mySandClock.Append("* ");
                 }
 
-                addSpacesToClock(mySandClock, i);
                 mySandClock.Append("\n");
             }
 
            
-            for (int i = i_ClockHight/2; i >= 0; i--)
+            for (int i = i_ClockHight / 2; i >= 0; i--) //bottom half of clock
             {
                 addSpacesToClock(mySandClock, i);
 
@@ -36,7 +35,6 @@ namespace B17_Ex_01_2
                     mySandClock.Append("* ");
                 }
 
-                addSpacesToClock(mySandClock, i);
                 mySandClock.Append("\n");
             }
 
@@ -47,12 +45,8 @@ namespace B17_Ex_01_2
         {
             for (int i = 0; i < i_CurrHight; i++)
             {
-                
               io_SandClock.Append("  ");
-               
             }
-
-
         }
     }
 }
